@@ -1,0 +1,202 @@
+---
+title: Getting Started
+description: Step-by-step guide to setting up and using Harshit Singh Documentation
+---
+
+## Overview
+
+Getting started with Harshit Singh Documentation is straightforward. This guide will walk you through creating your account, setting up your first project, and adding your initial documentation pages.
+
+<Steps>
+  <Step title="Create Account" icon="user">
+    Visit our website and sign up for a free account.
+    
+    <CodeGroup tabs="Web,CURL,Python">
+      ```javascript
+// Visit https://harshitdocs.com/signup
+const signupData = {
+  name: 'John Doe',
+  email: 'john@example.com',
+  password: 'securePassword123!'
+};
+
+fetch('/api/auth/register', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(signupData)
+});
+```
+      ```bash
+curl -X POST https://api.harshitdocs.com/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com","password":"securePassword123!"}'
+```
+      ```python
+import requests
+
+signup_data = {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "securePassword123!"
+}
+
+response = requests.post('https://api.harshitdocs.com/auth/register', json=signup_data)
+print(f"Account created: {response.json()['userId']}")
+```
+    </CodeGroup>
+  </Step>
+  <Step title="Verify Email" icon="mail">
+    Check your email for a verification link and click to activate your account.
+  </Step>
+  <Step title="Create Project" icon="folder">
+    Set up your first documentation project.
+    
+    <Tabs>
+      <Tab title="Dashboard" icon="layout-dashboard">
+        Use the web dashboard to create a new project.
+        
+        1. Click "New Project" in the sidebar
+        2. Enter project name: "My API Docs"
+        3. Choose visibility: Public or Private
+        4. Click "Create"
+      </Tab>
+      <Tab title="API" icon="code">
+        Create a project programmatically.
+        
+        ```javascript
+const projectData = {
+  name: 'My API Docs',
+  description: 'Documentation for my REST API',
+  visibility: 'private'
+};
+
+fetch('/api/projects', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_JWT_TOKEN'
+  },
+  body: JSON.stringify(projectData)
+});
+```
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+## Adding Your First Document
+
+Once your project is created, you can start adding documentation pages.
+
+<Columns cols={2}>
+  <Card title="Markdown Pages" icon="file-text" href="#markdown-docs">
+    Create rich documentation using markdown syntax.
+  </Card>
+  <Card title="API Endpoints" icon="code" href="#api-docs">
+    Document your API endpoints with interactive examples.
+  </Card>
+</Columns>
+
+### Creating a Markdown Page
+
+Use our editor or API to create documentation pages.
+
+<ExpandableGroup>
+  <Expandable title="Using the Web Editor" default-open="true">
+    Our web-based editor provides a WYSIWYG experience.
+    
+    <Steps>
+      <Step title="Navigate to Project" icon="folder">
+        Go to your project dashboard.
+      </Step>
+      <Step title="Click New Page" icon="plus">
+        Click the "New Page" button.
+      </Step>
+      <Step title="Write Content" icon="edit">
+        Use markdown to write your documentation.
+        
+        ```markdown
+# My First API
+
+This API provides endpoints for user management.
+
+## Authentication
+
+Use Bearer tokens for authentication:
+
+```
+Authorization: Bearer YOUR_TOKEN
+```
+```
+      </Step>
+      <Step title="Save and Publish" icon="save">
+        Save your changes and publish the page.
+      </Step>
+    </Steps>
+  </Expandable>
+  <Expandable title="Using the API" default-open="false">
+    Create pages programmatically for automation.
+    
+    ```javascript
+const docData = {
+  title: 'User Management API',
+  content: `# User Management API\n\n## Endpoints\n\n- GET /users - List users\n- POST /users - Create user\n- PUT /users/{id} - Update user\n- DELETE /users/{id} - Delete user\n\n## Authentication\n\nAll endpoints require Bearer token authentication.`,
+  projectId: 'proj-123',
+  tags: ['api', 'users']
+};
+
+fetch('/api/docs', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_TOKEN'
+  },
+  body: JSON.stringify(docData)
+}).then(res => res.json()).then(data => console.log('Doc created:', data.id));
+```
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="tip">Use our API for integrating documentation creation into your CI/CD pipelines.</Callout>
+
+## Organizing Your Docs
+
+Keep your documentation well-structured and easy to navigate.
+
+<Tabs>
+  <Tab title="Folders" icon="folder">
+    Organize pages into folders and subfolders.
+    
+    | Structure | Purpose |
+    |-----------|---------|
+    | `/api/` | API reference docs |
+    | `/guides/` | User guides |
+    | `/examples/` | Code examples |
+    | `/changelog/` | Version history |
+  </Tab>
+  <Tab title="Tags" icon="tag">
+    Use tags to categorize and filter content.
+    
+    Common tags: `api`, `tutorial`, `reference`, `advanced`, `deprecated`
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+Now that you have your basic setup, explore advanced features like webhooks, versioning, and team collaboration to enhance your documentation workflow.
+
+<Expandable title="Troubleshooting" default-open="false">
+  Having issues? Check our troubleshooting section.
+  
+  <Steps>
+    <Step title="Check API Status" icon="activity">
+      Verify our API is operational at status.harshitdocs.com
+    </Step>
+    <Step title="Review Logs" icon="file-text">
+      Check your application logs for error messages.
+    </Step>
+    <Step title="Contact Support" icon="message-square">
+      Reach out to our support team if issues persist.
+    </Step>
+  </Steps>
+</Expandable>

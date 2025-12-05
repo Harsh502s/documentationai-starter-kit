@@ -1,0 +1,244 @@
+---
+title: Configuration
+description: Learn how to configure Harshit Singh Documentation for your specific needs
+---
+
+## Configuration Overview
+
+Harshit Singh Documentation offers extensive configuration options to tailor the platform to your workflow. From project settings to user permissions, you can customize every aspect of your documentation experience.
+
+<Columns cols={3}>
+  <Card title="Project Settings" icon="settings" href="#project-config">
+    Configure project-specific options and preferences.
+  </Card>
+  <Card title="User Management" icon="users" href="#user-management">
+    Set up teams and manage access permissions.
+  </Card>
+  <Card title="Integrations" icon="plug" href="#integrations">
+    Connect with external tools and services.
+  </Card>
+</Columns>
+
+## Project Configuration
+
+Each project can be configured independently to meet your documentation requirements.
+
+<Tabs>
+  <Tab title="Basic Settings" icon="settings">
+    Configure fundamental project properties.
+    
+    <ParamField path="name" param-type="string" required="true">
+      The display name for your project.
+    </ParamField>
+    
+    <ParamField path="description" param-type="string" required="false">
+      A brief description of the project's purpose.
+    </ParamField>
+    
+    <ParamField path="visibility" param-type="string" required="true">
+      Set to `public` or `private` to control access.
+    </ParamField>
+  </Tab>
+  <Tab title="Advanced Options" icon="sliders">
+    Fine-tune project behavior and features.
+    
+    <ExpandableGroup>
+      <Expandable title="Versioning" default-open="false">
+        Enable semantic versioning for your documentation.
+        
+        <Steps>
+          <Step title="Enable Versioning" icon="toggle-left">
+            Toggle versioning on in project settings.
+          </Step>
+          <Step title="Create Version" icon="tag">
+            Tag releases with semantic versions like `v1.2.3`.
+          </Step>
+          <Step title="Set Default Version" icon="star">
+            Choose which version appears by default.
+          </Step>
+        </Steps>
+      </Expandable>
+      <Expandable title="Webhooks" default-open="false">
+        Configure webhooks for real-time notifications.
+        
+        ```javascript
+const webhookConfig = {
+  url: 'https://your-app.com/webhook/docs-updated',
+  events: ['doc.created', 'doc.updated', 'doc.deleted'],
+  secret: 'your-webhook-secret'
+};
+
+fetch('/api/projects/{projectId}/webhooks', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_TOKEN'
+  },
+  body: JSON.stringify(webhookConfig)
+});
+```
+      </Expandable>
+    </ExpandableGroup>
+  </Tab>
+</Tabs>
+
+## User and Team Management
+
+Manage access and permissions for your documentation projects.
+
+<Steps>
+  <Step title="Invite Team Members" icon="user-plus">
+    Add collaborators to your projects.
+    
+    <CodeGroup tabs="Dashboard,API">
+      ```javascript
+// Dashboard: Click "Invite" button and enter email addresses
+
+const inviteData = {
+  emails: ['colleague1@example.com', 'colleague2@example.com'],
+  role: 'editor',
+  projectId: 'proj-123'
+};
+
+fetch('/api/projects/{projectId}/invites', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_TOKEN'
+  },
+  body: JSON.stringify(inviteData)
+});
+```
+      ```bash
+curl -X POST https://api.harshitdocs.com/projects/proj-123/invites \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"emails":["colleague@example.com"],"role":"editor"}'
+```
+    </CodeGroup>
+  </Step>
+  <Step title="Set Permissions" icon="shield">
+    Define what each user can do in the project.
+    
+    | Role | Permissions |
+    |------|-------------|
+    | Viewer | Read-only access to all docs |
+    | Editor | Can create and edit docs |
+    | Admin | Full control including settings and invites |
+  </Step>
+  <Step title="Manage Roles" icon="settings">
+    Change user roles as needed.
+  </Step>
+</Steps>
+
+## Integration Setup
+
+Connect Harshit Singh Documentation with your existing tools and workflows.
+
+<ExpandableGroup>
+  <Expandable title="GitHub Integration" default-open="false">
+    Sync documentation with GitHub repositories.
+    
+    <Steps>
+      <Step title="Connect GitHub" icon="github">
+        Authorize our app in your GitHub account.
+      </Step>
+      <Step title="Select Repository" icon="folder">
+        Choose which repo to sync with.
+      </Step>
+      <Step title="Configure Sync" icon="refresh-cw">
+        Set up automatic syncing on commits.
+      </Step>
+    </Steps>
+    
+    ```javascript
+const githubConfig = {
+  repo: 'your-org/your-repo',
+  branch: 'main',
+  path: 'docs/',
+  token: 'ghp_your_github_token'
+};
+
+fetch('/api/projects/{projectId}/integrations/github', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_TOKEN'
+  },
+  body: JSON.stringify(githubConfig)
+});
+```
+  </Expandable>
+  <Expandable title="Slack Notifications" default-open="false">
+    Get notified about documentation updates in Slack.
+    
+    <ParamField query="webhook_url" param-type="string" required="true">
+      Your Slack webhook URL for notifications.
+    </ParamField>
+    
+    <ParamField query="channel" param-type="string" required="false">
+      Specific Slack channel for notifications.
+    </ParamField>
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="info">All integrations use secure OAuth flows and encrypted API tokens.</Callout>
+
+## Environment-Specific Settings
+
+Configure different settings for development, staging, and production environments.
+
+<Tabs>
+  <Tab title="Development" icon="code">
+    Settings for local development and testing.
+    
+    - Enable debug logging
+    - Use mock data sources
+    - Allow all CORS origins
+  </Tab>
+  <Tab title="Production" icon="server">
+    Optimized settings for live environments.
+    
+    - Disable debug features
+    - Use production databases
+    - Restrict CORS to allowed domains
+  </Tab>
+</Tabs>
+
+<Callout kind="danger">Always use production settings in live environments to ensure security and performance.</Callout>
+
+## Backup and Recovery
+
+Ensure your documentation is safe with regular backups.
+
+<Steps>
+  <Step title="Enable Backups" icon="download">
+    Set up automatic daily backups.
+  </Step>
+  <Step title="Test Restores" icon="rotate-ccw">
+    Regularly test backup restoration.
+  </Step>
+  <Step title="Monitor Storage" icon="hard-drive">
+    Keep track of backup storage usage.
+  </Step>
+</Steps>
+
+## Troubleshooting Configuration Issues
+
+Common configuration problems and their solutions.
+
+<Expandable title="Permission Errors" default-open="false">
+  If users can't access certain features.
+  
+  - Check user roles in project settings
+  - Verify API tokens are valid
+  - Ensure project visibility settings allow access
+</Expandable>
+
+<Expandable title="Integration Failures" default-open="false">
+  When external integrations stop working.
+  
+  - Re-authorize OAuth connections
+  - Check API rate limits
+  - Verify webhook endpoints are accessible
+</Expandable>

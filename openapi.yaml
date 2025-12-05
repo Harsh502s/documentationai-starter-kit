@@ -1,0 +1,168 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Harshit Singh Documentation API
+  license:
+    name: MIT
+servers:
+  - url: https://api.harshitdocs.com/v1
+paths:
+  /docs:
+    get:
+      summary: Retrieve a list of all documentation pages in the system. This endpoint supports pagination and filtering by project or tags to help manage large documentation collections efficiently.
+      operationId: listDocs
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of documentation pages to return in a single request, with a maximum limit of 100 pages per call
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Successful response containing a paginated list of documentation pages with metadata including creation dates and tags
+          headers:
+            x-next:
+              description: URL for the next page of results when more documentation pages are available beyond the current limit
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Docs'
+        default:
+          description: Error response returned when the request fails due to authentication issues, invalid parameters, or server errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new documentation page in the specified project. This endpoint allows adding new documentation content with full markdown support and custom metadata.
+      operationId: createDoc
+      responses:
+        201:
+          description: Documentation page successfully created with a unique identifier returned for future reference and updates
+        default:
+          description: Error response when creation fails due to validation errors, permission issues, or server-side problems
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /docs/{docId}:
+    get:
+      summary: Retrieve detailed information for a specific documentation page by its unique identifier. This includes full content, metadata, and version history.
+      operationId: getDoc
+      parameters:
+        - name: docId
+          in: path
+          required: true
+          description: Unique identifier of the documentation page to retrieve, typically a UUID or auto-generated string
+          schema:
+            type: string
+      responses:
+        200:
+          description: Complete documentation page data including title, content, author information, and last modification timestamp
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Docs'
+        default:
+          description: Error response when the requested documentation page cannot be found or access is denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects:
+    get:
+      summary: List all projects accessible to the authenticated user. This endpoint provides project metadata including names, descriptions, and member counts.
+      operationId: listProjects
+      parameters:
+        - name: limit
+          in: query
+          description: Number of projects to return per page, with a maximum of 50 projects allowed in a single response
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Paginated list of projects with basic information for each project owned or shared with the user
+          headers:
+            x-next:
+              description: Link to retrieve the next set of projects when more results are available
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        default:
+          description: Error response for authentication failures or server issues when retrieving project list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new documentation project with custom settings. This allows setting up organized spaces for related documentation pages.
+      operationId: createProject
+      responses:
+        201:
+          description: Project successfully created with a unique project ID returned for managing documentation within the project
+        default:
+          description: Error response when project creation fails due to validation errors or permission restrictions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Doc:
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        projectId:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    Docs:
+      type: array
+      items:
+        $ref: '#/components/schemas/Doc'
+    Project:
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        visibility:
+          type: string
+          enum: [public, private]
+    Projects:
+      type: array
+      items:
+        $ref: '#/components/schemas/Project'
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

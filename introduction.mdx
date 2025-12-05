@@ -1,0 +1,130 @@
+---
+title: Introduction
+description: Overview of Harshit Singh Documentation and its core capabilities
+---
+
+## Getting Started
+
+Welcome to Harshit Singh Documentation, your comprehensive platform for organizing and managing project documentation. This space provides a centralized hub for all your documentation needs, from quick starts to advanced configurations.
+
+Whether you're a developer building APIs or a team documenting processes, our platform offers intuitive tools to create, maintain, and share documentation effectively.
+
+<Columns cols={3}>
+  <Card title="Quick Setup" icon="rocket" href="#getting-started">
+    Get up and running in minutes with our streamlined onboarding process.
+  </Card>
+  <Card title="API Integration" icon="code" href="#api-reference">
+    Seamlessly integrate with your existing workflows and tools.
+  </Card>
+  <Card title="Advanced Features" icon="zap" href="#advanced-features">
+    Explore powerful features for complex documentation needs.
+  </Card>
+</Columns>
+
+## Key Features
+
+Harshit Singh Documentation offers a robust set of features designed to streamline your documentation workflow. Our platform supports multiple documentation formats, real-time collaboration, and comprehensive search capabilities.
+
+<Tabs>
+  <Tab title="Basic" icon="file-text">
+    Start with simple markdown pages and basic organization.
+    
+    <Steps>
+      <Step title="Create Account" icon="user">
+        Sign up for a free account to get started.
+        ```bash
+        curl -X POST https://api.harshitdocs.com/auth/register \
+          -H "Content-Type: application/json" \
+          -d '{"email":"user@example.com","password":"securepass123"}'
+        ```
+      </Step>
+      <Step title="Create First Doc" icon="file">
+        Use our API to create your first documentation page.
+        ```javascript
+const axios = require('axios');
+
+async function createDoc() {
+  try {
+    const response = await axios.post('https://api.harshitdocs.com/docs', {
+      title: 'My First Document',
+      content: '# Welcome\nThis is my first doc.',
+      projectId: 'proj-123'
+    }, {
+      headers: { 'Authorization': 'Bearer YOUR_TOKEN' }
+    });
+    console.log('Doc created:', response.data.id);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
+
+createDoc();
+```
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Advanced" icon="settings">
+    Leverage advanced features like versioning and webhooks.
+    
+    <ExpandableGroup>
+      <Expandable title="Version Control" default-open="false">
+        Track changes and maintain multiple versions of your documentation.
+        
+        <Callout kind="tip">Use semantic versioning for your docs to keep track of major and minor changes.</Callout>
+      </Expandable>
+      <Expandable title="Webhooks" default-open="false">
+        Set up webhooks to notify external systems when docs are updated.
+        
+        ```javascript
+// Example webhook payload
+const webhookPayload = {
+  event: 'doc.updated',
+  docId: 'doc-456',
+  changes: {
+    title: 'Updated Title',
+    lastModified: '2024-10-15T10:30:00Z'
+  }
+};
+
+// Send to your endpoint
+fetch('https://your-webhook-endpoint.com/notify', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(webhookPayload)
+});
+```
+      </Expandable>
+    </ExpandableGroup>
+  </Tab>
+</Tabs>
+
+## Use Cases
+
+Our platform serves various documentation needs across different industries and team sizes.
+
+<Columns cols={2}>
+  <Card title="Developer Teams" icon="users" href="#developer-teams">
+    Perfect for development teams documenting APIs, SDKs, and internal processes.
+  </Card>
+  <Card title="Product Documentation" icon="package" href="#product-docs">
+    Create comprehensive product guides and user manuals.
+  </Card>
+</Columns>
+
+<Callout kind="info">Harshit Singh Documentation supports markdown, JSON, and YAML formats for maximum flexibility.</Callout>
+
+## Next Steps
+
+Ready to get started? Explore our getting started guide or dive into the API reference to begin integrating with your projects.
+
+<Steps>
+  <Step title="Read Getting Started" icon="book-open">
+    Learn the basics of setting up your documentation space.
+  </Step>
+  <Step title="Configure Your Project" icon="settings">
+    Set up your first project and start adding documentation.
+  </Step>
+  <Step title="Integrate APIs" icon="code">
+    Connect external tools and automate your documentation workflow.
+  </Step>
+</Steps>
